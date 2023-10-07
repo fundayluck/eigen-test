@@ -1,39 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Typography, Image, Row, Col, Space, Button } from 'antd'
+import { Typography, Image, Row, Col, Button, } from 'antd'
 import moment from 'moment'
-import { ArrowLeftOutlined, SearchOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined } from '@ant-design/icons'
+import useDetailArticleHook from '../components/hooks/useDetailArticleHook'
 const FailedImage = require('../assets/image/FailedImage.png')
 
 const { Text, Title, Link } = Typography;
 
-interface DetailProps {
-    title?: string
-    description?: string
-    content?: string
-    url?: string
-    urlToImage?: string
-    publishedAt?: string
-    author?: string
-}
 
 const DetailArticle: React.FC = () => {
     const navigate = useNavigate()
     const { id } = useParams()
     const Id: any = id
+    const { DetailArticle } = useDetailArticleHook(Id)
 
-    const [DetailArticle, setDetailArticle] = useState<DetailProps>()
-    console.log(DetailArticle);
-
-
-    useEffect(() => {
-        const savedData = localStorage.getItem('data')
-        if (savedData) {
-            const parsedData = JSON.parse(savedData)
-            console.log(parsedData)
-            setDetailArticle(parsedData[Id - 1])
-        }
-    }, [Id])
 
     return (
         <>
@@ -62,15 +43,18 @@ const DetailArticle: React.FC = () => {
                 >
                     <Image
                         width={500}
-                        src={DetailArticle?.urlToImage}
+                        src={DetailArticle?.urlToImage !== null ? DetailArticle?.urlToImage : FailedImage}
                         style={{
-                            borderRadius: 10
+                            borderRadius: 10,
                         }}
                     />
 
                 </Col>
                 <Col
+                    xs={{ span: 24 }}
+                    sm={{ span: 24 }}
                     md={{ span: 10 }}
+
                 >
                     <Col
                         xs={{ span: 24 }}
@@ -84,7 +68,14 @@ const DetailArticle: React.FC = () => {
                         <Text italic strong>{moment(DetailArticle?.publishedAt).format('DD MMM YYYY')} | {DetailArticle?.author}</Text>
                     </Col>
 
-                    <Col>
+                    <Col
+                        xs={{ span: 24 }}
+                        sm={{ span: 24 }}
+                        md={{ span: 24 }}
+                        lg={{ span: 24 }}
+                        xl={{ span: 24 }}
+                        xxl={{ span: 24 }}
+                    >
                         <Text>{DetailArticle?.content}</Text>
                         <Link href={DetailArticle?.url} target="_blank">
                             Read More

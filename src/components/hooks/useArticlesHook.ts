@@ -9,6 +9,7 @@ interface ArticleProps {
 }
 
 const useArticlesHooks = () => {
+    const [active] = useState(true);
     const [article, setArticle] = useState<ArticleProps[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
@@ -24,6 +25,7 @@ const useArticlesHooks = () => {
                 const dataString = JSON.stringify(response.data.articles)
                 localStorage.setItem('data', dataString)
                 setLoading(false)
+                // setActive(false)
             } catch (err) {
                 console.error('Error fetching data:', err);
                 setLoading(false)
@@ -33,7 +35,7 @@ const useArticlesHooks = () => {
         getData()
     }, [])
 
-    return { article, loading, error }
+    return { article, loading, error, active }
 
 }
 

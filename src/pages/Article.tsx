@@ -1,14 +1,17 @@
 import React from 'react'
-import { Card, Col, Row, Spin, Image } from 'antd';
-import { NavLink } from 'react-router-dom';
-import useArticlesHooks from '../components/hooks/useArticlesHook';
+import { Card, Col, Row, Spin, Image, Skeleton } from 'antd'
+import { NavLink } from 'react-router-dom'
+import { LoadingOutlined } from '@ant-design/icons'
+import useArticlesHooks from '../components/hooks/useArticlesHook'
 const FailedImage = require('../assets/image/FailedImage.png')
 const { Meta } = Card;
 
 
+const antIcon = <LoadingOutlined spin />
 
 const Article: React.FC = () => {
-    const { loading, article, error } = useArticlesHooks()
+    const { loading, article, error, active } = useArticlesHooks()
+
 
 
     let RenderView
@@ -22,7 +25,7 @@ const Article: React.FC = () => {
                 minHeight: '90vh'
             }}
         >
-            <Spin />
+            <Spin size="large" indicator={antIcon} />
         </div >
     } else if (!error) {
         RenderView = <Row gutter={[16, 16]}>
@@ -45,12 +48,7 @@ const Article: React.FC = () => {
                                 src={item?.urlToImage}
                                 preview={false}
                                 placeholder={
-                                    <Image
-                                        preview={false}
-                                        src={FailedImage}
-                                        width={300}
-                                        height={150}
-                                    />
+                                    <Skeleton.Image style={{ width: '100%', height: 150 }} active={active} />
                                 }
                                 fallback={FailedImage}
                             />}
